@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <ion-buttons>
+        <ion-button (click)="presentActionSheet()" color="tertiary">
+          <ion-icon slot="icon-only" name="more" lazy="false"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="username" class="ion-padding-top ion-text-center">
+    <img src="/assets/profile.jpg" alt="avatar" class="profile" />
+    <h2>{{ username }}</h2>
+
+    <ion-list inset text-center>
+      <ion-item lines="full">Manu@gmail.com</ion-item>
+      <ion-item lines="full">7034397935</ion-item>
+
+      <hr />
+    </ion-list>
+  </div>
+</ion-content>
