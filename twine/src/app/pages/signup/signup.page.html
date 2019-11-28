@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>signup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-avatar class="signup">
+    <img  src="assets/contactimage.png">
+  </ion-avatar>
+  <ion-item>
+      <ion-icon ios="ios-person" md="md-person"></ion-icon><ion-input type="text" [(ngModel)]="firstname" placeholder="  First Name"></ion-input>
+      
+    </ion-item>
+    <ion-item>
+      <ion-icon ios="ios-person" md="md-person"></ion-icon><ion-input type="text" [(ngModel)]="lastname" placeholder="  Last Name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon ios="ios-mail" md="md-mail"></ion-icon><ion-input type="email" [(ngModel)]="email" placeholder="  Email Id"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon ios="ios-call" md="md-call"></ion-icon><ion-input type="number" [(ngModel)]="number" placeholder="  Phone Number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon ios="ios-lock" md="md-lock"></ion-icon><ion-input type="password" [(ngModel)]="password" placeholder="  Password"></ion-input>
+    </ion-item>
+
+    <ion-button type="submit" expand="full">SignUp</ion-button>
+    <ion-row style="height: 10px;"></ion-row>
+        <ion-buttons color="primary">
+            Already have an account?<ion-nav-link color="primary" style="font-weight: bold;" [routerLink]="['/login']">clickhere</ion-nav-link>
+    </ion-buttons>
+      
+      
+  
+
+
+</ion-content>
