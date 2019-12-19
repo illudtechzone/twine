@@ -8,8 +8,10 @@ const routes: Routes = [
   },
   { path: 'create-complaint', loadChildren: './pages/create-complaint/create-complaint.module#CreateComplaintPageModule' },
   { path: 'add-comment', loadChildren: './add-comment/add-comment.module#AddCommentPageModule' },
-  { path: 'signup', loadChildren: './pages/signup/signup.module#SignupPageModule' },
-  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
+  { path: 'signup',
+   loadChildren: () => import('./pages/signup/signup.module').then(m => m.SignupPageModule) },
+  { path: 'login',
+  loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)},
   { path: 'forgotpassword', loadChildren: './pages/forgotpassword/forgotpassword.module#ForgotpasswordPageModule' },
   { path: 'missing', loadChildren: './pages/missing/missing.module#MissingPageModule' }
 ];

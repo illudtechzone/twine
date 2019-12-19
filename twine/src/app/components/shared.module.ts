@@ -1,3 +1,6 @@
+import { ImageCropperModule } from 'ngx-img-cropper';
+import { RouterModule } from '@angular/router';
+import { ImageSelectorComponent } from './image-selector/image-selector.component';
 import { IonicModule } from '@ionic/angular';
 import { AddComplaintComponent } from './add-complaint/add-complaint.component';
 import { NgModule } from '@angular/core';
@@ -9,12 +12,14 @@ import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [AddComplaintComponent],
+  declarations: [AddComplaintComponent, ImageSelectorComponent],
   imports: [
     FormsModule,
     CommonModule,
+    ImageCropperModule,
+    RouterModule,
     IonicModule.forRoot(),
   ],
-exports: [AddComplaintComponent]
+exports: [AddComplaintComponent, ImageSelectorComponent]
 })
 export class SharedModule { }

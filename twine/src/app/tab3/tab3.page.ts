@@ -1,5 +1,9 @@
+import { KeycloakService } from './../services/KeycloakService';
+import { CurrentUserService } from './../services/current-user.service';
+import { CameraOptions, Camera } from '@ionic-native/camera/ngx';
+import { ImageSelectorComponent } from './../components/image-selector/image-selector.component';
 import { Component } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 @Component({
@@ -11,43 +15,125 @@ export class Tab3Page {
 
   username: string="manu";
 
-  constructor(
-    public alertCtrl: AlertController,
-    public router: Router,
-    private actionSheetController:ActionSheetController
-  ) { }
+  
+  public appPages = [
+    {
+      title: 'Home',
+      url: '/home',
+      icon: 'home'
+    },
+    {
+      title: 'List',
+      url: '/list',
+      icon: 'list'
+    },
+    {
+      title: 'Profile',
+      url: '/profile',
+      icon: 'contact'
+    },
+    {
+      title: 'Logout',
+      url: '/',
+      icon: 'log-out'
+    }
+  ];
 
+  user: any = {};
+  imageContent: any = {};
+  image: any = {};
+  readonly = true;
 
-  updatePicture() {
-    console.log('Clicked to update picture');
+  edit() {
+
+    this.readonly = !this.readonly;
+    console.log('this wAS', this.readonly);
   }
 
-async presentActionSheet() {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Options',
-      buttons: [ {
-        text: 'Edit profile',
-        icon: 'create',
-        handler: () => {
-          console.log('Play clicked');
-        }
-      }, {
-        text: 'Logout',
-        icon: 'log-out',
-        handler: () => {
-          console.log('Favorite clicked');
-        }
-      }, {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
+  constructor(private currentUserService: CurrentUserService,
+              private modalController: ModalController,
+              private navController: NavController,
+              private alertController: AlertController,
+              private keyCloackService: KeycloakService,
+              private camera: Camera
+              ) { }
+
+  ngOnInit() {
+    console.log('entering');
+    this.currentUserService.getCurrentUser(true).then(result => {
+      console.log('user is getting', result);
+      this.user = (result);
+    },
+    error => {
+      console.log('error while getting user', error);
     });
-    await actionSheet.present();
+
   }
- 
+ async confirmation() {
+   const alert = await this.alertController.create({
+     header: 'Confirm',
+     subHeader: '',
+     message: 'Profile Updated',
+     buttons: [ {
+      text: 'Cancel',
+      role: 'cancel'
+    }, {
+      text: 'Confirm',
+      handler: () => {
+        this.update();
+      }
+    }]
+   });
+   await alert.present();
+ }
+
+ update() {
+   console.log(this.user);
+   this.user.family_name = '';
+   this.keyCloackService.updateCurrentUserDetails(this.user,
+    () => {
+      console.log('Uers Upadtes');
+      this.edit();
+   },
+   () => {
+    alert('Faile to update to user');
+   });
+ }
+
+
+ async uploadImage() {
+
+   const modal = await this.modalController.create({
+     component: ImageSelectorComponent,
+     cssClass: 'half-height'
+   });
+   modal.onDidDismiss().then(data => {
+    console.log(data.data.image, 'mmmmkkk');
+    this.image = data.data.image.substring(
+       data.data.image.indexOf(',') + 1,
+     );
+    this.imageContent = data.data.image.slice(
+       data.data.image.indexOf(':') + 1,
+       data.data.image.indexOf(';')
+     );
+    console.log(this.image, 'image');
+   });
+   return await modal.present();
+ }
+
+ takePicture() {
+  const options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE
+  };
+
+  this.camera.getPicture(options).then((imageData) => {
+    this.image = 'data:image/jpeg;base64,';
+  }, (err) => {
+    console.log('Camera issue:' + err);
+  });
+}
 
 }

@@ -1,38 +1,108 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>signup</ion-title>
-  </ion-toolbar>
+<ion-title>Register</ion-title>
+<ion-buttons slot="start">
+  <ion-menu-button></ion-menu-button>
+</ion-buttons>
+</ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-avatar class="signup">
-    <img  src="assets/contactimage.png">
-  </ion-avatar>
-  <ion-item>
-      <ion-icon ios="ios-person" md="md-person"></ion-icon><ion-input type="text" [(ngModel)]="firstname" placeholder="  First Name"></ion-input>
-      
-    </ion-item>
-    <ion-item>
-      <ion-icon ios="ios-person" md="md-person"></ion-icon><ion-input type="text" [(ngModel)]="lastname" placeholder="  Last Name"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-icon ios="ios-mail" md="md-mail"></ion-icon><ion-input type="email" [(ngModel)]="email" placeholder="  Email Id"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-icon ios="ios-call" md="md-call"></ion-icon><ion-input type="number" [(ngModel)]="number" placeholder="  Phone Number"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-icon ios="ios-lock" md="md-lock"></ion-icon><ion-input type="password" [(ngModel)]="password" placeholder="  Password"></ion-input>
-    </ion-item>
+<ion-segment (ionChange)="slide($event)" [value]="value">
+  <ion-segment-button value="login">
+    <ion-label>Login</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="signup">
+    <ion-label>Register</ion-label>
+  </ion-segment-button>  
+</ion-segment>
 
-    <ion-button type="submit" expand="full">SignUp</ion-button>
-    <ion-row style="height: 10px;"></ion-row>
-        <ion-buttons color="primary">
-            Already have an account?<ion-nav-link color="primary" style="font-weight: bold;" [routerLink]="['/login']">clickhere</ion-nav-link>
-    </ion-buttons>
-      
-      
+<ion-content padding>
+  <ion-slides #slides (ionSlideDidChange)="slideChange()">
+    <ion-slide>
+      <ion-grid margin-top>
+        <ion-row justify-content-center text-center class="centre">
+          <ion-col size="6" justify-content-center>
+            <div class="circle">
+              <ion-icon class="large-icon" name="person"></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row justify-content-center class="centre">
+          <ion-col text-left class="container-box">
+            <form [formGroup]="loginForm">
+
+            <ion-item class="item-inner">
+              <ion-label color="medium" position="floating">Username or Email</ion-label>
+              <ion-input formControlName="name" background="light" [(ngModel)]="name"></ion-input>
+            </ion-item>
+            <ion-text  class="err-size ion-margin-start" color="danger" *ngIf="loginForm.get('name').invalid && showErrorLogin">Username Required</ion-text>
+
+            <ion-item class="item-inner">
+              <ion-label color="medium" position="floating">Password</ion-label>
+              <ion-input formControlName="password" type="password" [(ngModel)]="password"></ion-input>
+            </ion-item>
+            <ion-text  class="err-size ion-margin-start" color="danger" *ngIf="loginForm.get('password').invalid && showErrorLogin">Password Required</ion-text>
+            <div class="text-right">
+            <ion-text>
+              Forgot Password ?
+              </ion-text>
+            </div>
+            
+            <ion-button (click)="login()" expand="block" shape= "round" margin-top margin-bottom>Login
+            </ion-button>
+
+          </form>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+    <ion-slide>
+      <ion-grid margin-top>
+        <ion-row justify-content-center>
+          <ion-col size="6" text-center>
+            <div class="circle">
+              <ion-icon class="large-icon" name="person"></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row justify-content-center class="centre">
+          <ion-col text-left class="container-box">
+
+<form [formGroup]="crimeForm"> 
   
+  <ion-item class="item-inner">
+    <ion-label color="medium" position="floating">Email</ion-label>
+    <ion-input formControlName="email" background="light"></ion-input>
+  </ion-item>
+  <ion-text  class="err-size ion-margin-start" color="danger" *ngIf="crimeForm.get('email').invalid && showErrorSignup">Invalid Email</ion-text>
 
 
+  <ion-item class="item-inner">
+    <ion-label color="medium" position="floating">Phone</ion-label>
+    <ion-input formControlName="phone" background="light"></ion-input>
+  </ion-item>
+  <ion-text  class="err-size ion-margin-start" color="danger" *ngIf="crimeForm.get('phone').invalid && showErrorSignup ">Invalid Email</ion-text>
+
+
+  <ion-item class="item-inner">
+      <ion-label color="medium" position="floating">Password</ion-label>
+      <ion-input formControlName="password" type="password"></ion-input>
+    </ion-item>
+    <ion-text  class="err-size ion-margin-start" color="danger" *ngIf="crimeForm.get('password').invalid && showErrorSignup">Password Required</ion-text>
+    
+
+<ion-item class="item-inner">
+  <ion-label color="medium" position="floating">Confirm Password</ion-label>
+  <ion-input formControlName="confirmPassword" type="password"></ion-input>
+</ion-item>
+<ion-text  class="err-size ion-margin-start" color="danger" *ngIf="crimeForm.get('email').invalid && showErrorSignup">Password Required</ion-text>
+
+<ion-button (click)="signup()" expand="block" shape="round" margin-top margin-bottom>
+    Register</ion-button>
+  </form>
+</ion-col>
+</ion-row>
+</ion-grid>
+</ion-slide>
+</ion-slides>
 </ion-content>
